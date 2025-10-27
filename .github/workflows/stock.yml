@@ -650,7 +650,7 @@ jobs:
       - name: Upload AnyKernel3_STOCK
         uses: actions/upload-artifact@v4
         with:
-          name: AnyKernel3_Stock_${{ steps.file_clean.outputs.value }}${{ steps.suffix.outputs.value }}_DareDevil⚡
+          name: Delight_kernel_WILD_KSU_Stock_${{ steps.file_clean.outputs.value }}${{ steps.suffix.outputs.value }}_DareDevil⚡
           path: ./Anykernel3_STOCK_NORD3/*
 
       - name: Post-build Disk Check
