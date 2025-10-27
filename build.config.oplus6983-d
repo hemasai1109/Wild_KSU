@@ -1,0 +1,27 @@
+# Sourced configs for the base environment.
+# These set up the toolchain and basic variables.
+KERNEL_DIR=kernel-5.10
+. ${ROOT_DIR}/${KERNEL_DIR}/build.config.common
+. ${ROOT_DIR}/${KERNEL_DIR}/build.config.aarch64
+. ${ROOT_DIR}/${KERNEL_DIR}/build.config.lto_thin
+
+# This section creates the correct kernel .config by merging multiple files.
+# It is required for the kernel to know how it should be built.
+DEFCONFIG=oplus6983_defconfig
+PRE_DEFCONFIG_CMDS="KCONFIG_CONFIG=${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG} ${ROOT_DIR}/${KERNEL_DIR}/scripts/kconfig/merge_config.sh -m -r ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/gki_defconfig ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/mgk_64_k510_defconfig ${ROOT_DIR}/${KERNEL_DIR}/kernel/configs/oplus6983.config"
+POST_DEFCONFIG_CMDS="rm ${ROOT_DIR}/${KERNEL_DIR}/arch/arm64/configs/${DEFCONFIG}"
+
+# --- KEY MODIFICATIONS ---
+
+# 1. Set the specific build goal to ONLY Image.gz.
+MAKE_GOALS="Image.gz"
+
+# 2. Tell the script to ONLY copy the Image.gz file to the final dist folder.
+FILES="arch/arm64/boot/Image.gz"
+
+# 3. Forcefully disable all module-related steps. This is the crucial fix
+#    that prevents the "modules.order not found" error by overriding any
+#    settings from build.config.common.
+unset IN_KERNEL_MODULES
+unset BUILD_INITRAMFS
+unset EXT_MODULES
