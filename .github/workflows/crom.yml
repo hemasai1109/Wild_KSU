@@ -31,7 +31,7 @@ on:
         type: string
         description: "Branch name/Custom version identifier"
         required: false
-        default: "susfs-main/DareDevil⚡"
+        default: "susfs/DareDevil⚡"
       FAST_BUILD:
         type: boolean
         description: "Enable fast build?"
@@ -421,7 +421,7 @@ jobs:
           echo "Custom version identifier: $CUSTOM_TAG"
           curl -LSs "https://raw.githubusercontent.com/hemasai1109/Wild_KSU/refs/heads/main/setup.sh" | bash -s "$BRANCH_NAME"
           cd ./Wild_KSU
-          KSU_API_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/$BRANCH_NAME/kernel/Makefile" | \
+          KSU_API_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/WildKernels/Wild_KSU/refs/heads/susfs/kernel/Makefile" | \
             grep -m1 "KSU_VERSION_API :=" | awk -F'= ' '{print $2}' | tr -d '[:space:]')
           [[ -z "$KSU_API_VERSION" ]] && KSU_API_VERSION="3.1.7"
           echo "KSU_API_VERSION=$KSU_API_VERSION" >> $GITHUB_ENV
